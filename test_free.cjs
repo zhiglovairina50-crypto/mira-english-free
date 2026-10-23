@@ -13,7 +13,7 @@ function createStore(initial={}){
 }
 function voiceEnvironment({recognizer=true,synthesis=true}={}){
   const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);const nodes={};
-  const node=()=>({value:'',checked:false,hidden:false,options:[],textContent:'',append(o){this.options.push(o);},replaceChildren(){this.options=[];},focus(){this.focused=true;}});
+  const node=()=>({value:'',checked:false,hidden:false,options:[],textContent:'',append(o){this.options.push(o);},replaceChildren(){this.options=[];},focus(){this.focused=true;},scrollIntoView(){this.scrolled=true;}});
   for(const id of ids)nodes[id]=node();nodes.dictationLang.value='ru-RU';
   const states=[],spoken=[],recognizers=[],listeners={};
   class Recognition{constructor(){recognizers.push(this);}start(){this.started=true;this.onstart?.();}abort(){this.aborted=true;}stop(){this.onend?.();}}

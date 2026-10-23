@@ -1,0 +1,249 @@
+/* The approved portrait lives in the shared nebula. No replacement artwork. */
+:root {
+  --mira-aura: radial-gradient(ellipse at 53% 42%, #e49af633 0%, #b77bf01c 32%, transparent 68%);
+  --mira-feather: radial-gradient(ellipse 67% 70% at 50% 44%, #000 43%, #000e 60%, transparent 90%);
+  --mira-edge-x: linear-gradient(90deg, transparent, #000 14%, #000 84%, transparent);
+  --mira-edge-y: linear-gradient(180deg, transparent, #000 10%, #000 69%, transparent 100%);
+}
+.main { overflow-x: clip; }
+
+/* Transparent alpha masks in the page, leaving the original image untouched. */
+canvas[data-mira-avatar], .mira-page-portrait img, .sidebarphoto {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  -webkit-mask-image: var(--mira-feather), var(--mira-edge-x), var(--mira-edge-y);
+  mask-image: var(--mira-feather), var(--mira-edge-x), var(--mira-edge-y);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+canvas[data-mira-avatar] {
+  aspect-ratio: 4 / 5;
+  height: auto;
+  /* Show the same masked portrait while the animation images are loading. */
+  background-image: url('assets/mira-0.webp') !important;
+  background-size: 100% 100% !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  object-fit: contain !important;
+  filter: drop-shadow(0 0 26px #f1afe61c);
+  pointer-events: none;
+}
+
+/* The home scene shares the page background, without a panel or orbital frame. */
+.hero.card, .mentor-hero.live-hero, .main .hero.card:focus-within {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: visible;
+}
+.hero.card::before, .hero.card::after, .mentor-hero.live-hero::before, .mentor-hero.live-hero::after {
+  content: none !important;
+}
+.hero.card {
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr) !important;
+  min-height: 570px;
+  padding: 30px 0 25px !important;
+  gap: 12px !important;
+  isolation: isolate;
+}
+.hero > div:first-child { z-index: 2; }
+.heroimg {
+  position: relative;
+  z-index: 0 !important;
+  align-self: center !important;
+  width: calc(100% + 65px) !important;
+  max-width: 648px;
+  height: auto !important;
+  margin: -42px -32px -45px -33px !important;
+  isolation: isolate;
+  pointer-events: none;
+}
+.heroimg::before, .mira-large::before, .mira-page-portrait::before, .lesson-companion::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -12% -20%;
+  background: var(--mira-aura);
+  filter: blur(22px);
+  pointer-events: none;
+}
+.heroimg canvas {
+  width: 100%;
+  max-height: none !important;
+  opacity: 1;
+}
+.hero .actions { position: relative; margin-bottom: 22px; }
+
+/* The explanations page has the same open composition, at a quieter scale. */
+.mentor-hero.live-hero {
+  grid-template-columns: minmax(0, 1fr) minmax(0, .95fr) !important;
+  padding: 12px 0 24px !important;
+  min-height: 470px;
+  gap: 16px;
+  isolation: isolate;
+}
+.mira-large {
+  width: 100%;
+  max-width: 464px;
+  align-self: center;
+  isolation: isolate;
+  pointer-events: none;
+}
+.mira-large canvas { width: 100%; max-height: none !important; }
+.mira-large figcaption {
+  bottom: 2%;
+  left: 0;
+  right: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  backdrop-filter: none;
+  font-size: 14px;
+  color: #f5d7ee;
+  text-shadow: 0 2px 12px #160522;
+}
+
+/* Each section gets an open, flowing greeting. Portraits alternate sides. */
+.mira-page-greeting {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 3vw, 32px);
+  min-height: 172px;
+  margin: -8px 0 10px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  isolation: isolate;
+}
+.mira-page-greeting::after { content: none; }
+.mira-page-portrait {
+  flex: 0 0 156px;
+  width: 156px;
+  height: 195px;
+  margin: -6px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+  pointer-events: none;
+}
+.mira-page-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  transform: none;
+  filter: none;
+}
+.mira-page-hello { flex: 1 1 auto; }
+.mira-page-greeting.tilt-left .mira-page-portrait { order: 2; }
+.mira-page-greeting.tilt-left .mira-page-hello { order: 1; }
+.mira-page-greeting.tilt-right .mira-page-portrait { flex-basis: 145px; width: 145px; height: 181.25px; }
+.mira-page-hello .eyebrow { font-size: 10px; color: #dca6d6; }
+.mira-page-hello strong { font-size: clamp(17px, 2vw, 24px); }
+.mira-hair-twinkle.twinkle-a { top: 24%; left: 22%; }
+.mira-hair-twinkle.twinkle-b { top: 24%; right: 22%; }
+.mira-hair-twinkle.twinkle-c { top: 48%; left: 20%; }
+
+/* A small companion alongside the lesson, without a card or pinned overlay. */
+.lesson-companion {
+  position: relative;
+  isolation: isolate;
+  width: 210px;
+  margin: 0 0 24px 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.lesson-companion canvas {
+  width: 100%;
+  height: auto;
+  max-height: 263px;
+}
+.lesson-companion > div { position: relative; }
+.lesson-companion .btn { white-space: normal; max-width: 100%; }
+.lesson-companion.collapsed::before { content: none; }
+.sideend { border: 0; border-radius: 0; background: transparent; box-shadow: none; padding: 8px 0; }
+.sidebarphoto { width: 62px; height: 77px; margin: -6px 8px 0 -3px; object-fit: contain; }
+
+@media (min-width: 1500px) {
+  .hero.card { min-height: 670px; }
+  .heroimg canvas { max-height: 810px; }
+}
+@media (max-width: 1050px) and (min-width: 781px) {
+  .hero.card { grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr) !important; min-height: 540px; }
+  .heroimg { width: calc(100% + 30px) !important; margin: -25px -12px -25px -18px !important; }
+  .lesson-companion { width: 165px; margin-left: 16px; }
+}
+@media (max-width: 780px) {
+  .main { padding-bottom: calc(110px + env(safe-area-inset-bottom)) !important; }
+  .hero.card {
+    grid-template-columns: minmax(0, 1fr) !important;
+    min-height: 0;
+    padding: 0 0 12px !important;
+    gap: 0 !important;
+  }
+  .hero > div:first-child { grid-row: 2; }
+  .heroimg {
+    grid-row: 1;
+    grid-column: 1;
+    width: min(100%, 304px) !important;
+    max-width: 304px;
+    justify-self: end;
+    margin: -22px -12px -36px 0 !important;
+  }
+  .heroimg canvas { width: 100%; }
+  .hero .actions { margin-bottom: 10px; }
+  .mentor-hero.live-hero {
+    grid-template-columns: minmax(0, 1fr) !important;
+    min-height: 0;
+    padding: 0 0 25px !important;
+    gap: 0;
+  }
+  .live-hero > div { grid-row: 2; }
+  .mira-large { grid-row: 1; width: min(100%, 248px); justify-self: end; margin: -16px -10px -14px 0; }
+  .mira-large figcaption { position: relative; margin-top: -8px; margin-bottom: 16px; font-size: 12px; }
+  .mira-page-greeting { min-height: 135px; gap: 12px; margin: -6px 0 4px; padding: 0; }
+  .mira-page-portrait,
+  .mira-page-greeting.tilt-right .mira-page-portrait { flex-basis: 112px; width: 112px; height: 140px; }
+  .mira-page-hello strong { font-size: 17px; line-height: 1.38; }
+  .mira-page-hello .eyebrow { font-size: 9px; letter-spacing: .09em; }
+  .lesson-companion {
+    float: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 0;
+    margin: -4px 0 20px;
+    text-align: left;
+  }
+  .lesson-companion canvas { flex: 0 0 100px; width: 100px; height: 125px; max-height: none; }
+  .lesson-companion > div { flex: 1; min-width: 0; }
+  .lesson-companion .btn { min-height: 42px !important; font-size: 12px !important; padding: 8px 10px !important; }
+  .lesson-companion.collapsed { width: 100%; }
+}
+@media (max-width: 360px) {
+  .heroimg { width: min(100%, 252px) !important; max-width: 252px; }
+  .mira-page-portrait,
+  .mira-page-greeting.tilt-right .mira-page-portrait { flex-basis: 92px; width: 92px; height: 115px; }
+  .mira-page-greeting { min-height: 115px; }
+  .mira-page-hello strong { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mira-hair-twinkle { animation: none !important; }
+}
+@media print {
+  .mira-page-greeting, .heroimg, .mira-large, .lesson-companion { display: none !important; }
+}
