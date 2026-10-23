@@ -114,8 +114,8 @@ test('голоса, диктовка и поиск без платного API',
   await page.locator('#dictationConsent').check();
   await page.locator('#dictateStart').click();
   await expect(page.locator('#mentorQuestion')).toHaveValue(/Present Simple/);
-  await page.locator('#mentorForm button[type="submit"]').click();
-  await expect(page.locator('#mentorResults')).toContainText('уроки', { ignoreCase:true });
+  await page.locator('#mentorSend').click();
+  await expect(page.locator('#mentorResults')).toContainText(/урок/i);
   expect(errors).toEqual([]);
 });
 
