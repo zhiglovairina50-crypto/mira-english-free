@@ -23,7 +23,11 @@ async function fakeVoice(page) {
         Promise.resolve().then(() => { item.onstart?.(); item.onend?.(); });
       }
     };
-    Object.defineProperty(window, 'speechSynthesis', { configurable: true, value: synth });
+    try { Object.defineProperty(window, 'speechSynthesis', { configurable: true, value: synth }); }
+    catch (_) {
+      for (const key of ['getVoices','cancel','resume','addEventListener','speak'])
+        try { Object.defineProperty(window.speechSynthesis,key,{configurable:true,value:synth[key]}); } catch (_) {}
+    }
     if (!window.SpeechSynthesisUtterance) window.SpeechSynthesisUtterance = class {
       constructor(text) { this.text = text; }
     };
@@ -48,7 +52,7 @@ test('главное меню, уроки, вопросы, чтение и кн�
   const errors = watchErrors(page);
   await page.goto('/');
   await expect(page.locator('#home')).toHaveClass(/on/);
-  await page.locator('[data-go="catalog"]').first().click();
+  await page.locator('[data-go="catalog"]:visible').first().click();
   await expect(page.locator('#catalog')).toHaveClass(/on/);
   await expect(page.locator('#unitsGrid [data-open-unit]')).toHaveCount(10);
   await page.locator('#unitsGrid [data-open-unit]').first().click();
@@ -60,12 +64,12 @@ test('главное меню, уроки, вопросы, чтение и кн�
   await page.locator('#sayExample').click();
   await page.locator('#sayRule').click();
   const spoken = await page.evaluate(() => window.__miraSpoken);
-  expect(spoken.some(s => s.lang.startsWith('en'))).toBeTruthy();
+  expect(spoken.some(s => s.lang.startsWith('en')), JSON.stringify(await page.evaluate(() => ({voiceStatus:document.querySelector('#voiceStatus')?.textContent,hasMira:!!window.Mira,hasVoice:!!window.MiraVoice,hasSynthesis:!!window.speechSynthesis}))))).toBeTruthy();
   expect(spoken.some(s => s.lang.startsWith('ru'))).toBeTruthy();
   await page.locator('#lessonHost [data-choose]').first().click();
   await expect(page.locator('#nextTask')).toBeVisible();
   await page.locator('#nextTask').click();
-  await page.locator('[data-go="reading"]').first().click();
+  await page.locator('[data-go="reading"]:visible').first().click();
   await expect(page.locator('#reading')).toHaveClass(/on/);
   await page.locator('#readGrid [data-open-read]').first().click();
   await expect(page.locator('#readAloud')).toBeVisible();
@@ -78,7 +82,7 @@ test('главное меню, уроки, вопросы, чтение и кн�
 test('страницы 1–140, навигация, упражнения из тематических уроков', async ({ page }) => {
   const errors = watchErrors(page);
   await page.goto('/');
-  await page.locator('[data-go="catalog"]').first().click();
+  await page.locator('[data-go="catalog"]:visible').first().click();
   await page.locator('#bookPage').fill('47');
   await page.locator('#findBookPage').click();
   await expect(page.locator('#pageBookSheet')).toContainText('СТРАНИЦА 47');
@@ -105,7 +109,7 @@ test('голоса, диктовка и поиск без платного API',
   await fakeVoice(page);
   const errors = watchErrors(page);
   await page.goto('/');
-  await page.locator('[data-go="mentor"]').first().click();
+  await page.locator('[data-go="mentor"]:visible').first().click();
   await expect(page.locator('#mentor')).toHaveClass(/on/);
   await page.locator('#testRussian').click();
   await page.locator('#testEnglish').click();
@@ -122,14 +126,14 @@ test('голоса, диктовка и поиск без платного API',
 test('резервная копия прогресса и мобильная ширина кнопок', async ({ page }) => {
   const errors = watchErrors(page);
   await page.goto('/');
-  await page.locator('[data-go="parent"]').first().click();
+  await page.locator('[data-go="parent"]:visible').first().click();
   const download = page.waitForEvent('download');
   await page.locator('#exportProgress').click();
   const file = await download;
   expect(file.suggestedFilename()).toMatch(/^MIRA_English_Progress_.*\.json$/);
   await page.locator('#checkDevice').click();
   await expect(page.locator('#deviceStatus')).toContainText('HTTPS');
-  await page.locator('[data-go="mentor"]').first().click();
+  await page.locator('[data-go="mentor"]:visible').first().click();
   for (const id of ['#testRussian','#testEnglish','#dictateStart']) {
     const result = await page.locator(id).evaluate(el => {
       const rect = el.getBoundingClientRect();
@@ -139,7 +143,7 @@ test('резервная копия прогресса и мобильная ш�
     expect(result.left).toBeGreaterThanOrEqual(-2);
     expect(result.right).toBeLessThanOrEqual(page.viewportSize().width + 2);
   }
-  await page.locator('[data-go="catalog"]').first().click();
+  await page.locator('[data-go="catalog"]:visible').first().click();
   await page.locator('#unitsGrid [data-open-unit]').first().click();
   await page.locator('#unitHost [data-open-lesson]').first().click();
   for (const id of ['#sayExample','#sayRule']) {
