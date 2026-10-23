@@ -64,7 +64,12 @@ test('главное меню, уроки, вопросы, чтение и кн�
   await page.locator('#sayExample').click();
   await page.locator('#sayRule').click();
   const spoken = await page.evaluate(() => window.__miraSpoken);
-  if (!spoken.length) console.log('Voice diagnostics:', await page.evaluate(() => ({voiceStatus:document.querySelector('#voiceStatus')?.textContent,hasMira:!!window.Mira,hasVoice:!!window.MiraVoice,hasSynthesis:!!window.speechSynthesis})));
+  if (!spoken.length) console.log('Voice diagnostics:', {errors, state: await page.evaluate(() => ({
+    voiceStatus:document.querySelector('#voiceStatus')?.textContent,hasMira:!!window.Mira,hasVoice:!!window.MiraVoice,hasSynthesis:!!window.speechSynthesis,
+    synthMock: window.speechSynthesis?.speak?.toString().slice(0,120),
+    miraSpeak: typeof window.Mira?.speak,
+    nativeSpeech: typeof window.SpeechSynthesisUtterance
+  }))});
   expect(spoken.some(s => s.lang.startsWith('en'))).toBeTruthy();
   expect(spoken.some(s => s.lang.startsWith('ru'))).toBeTruthy();
   await page.locator('#lessonHost [data-choose]').first().click();
@@ -115,6 +120,7 @@ test('голоса, диктовка и поиск без платного API',
   await page.locator('#testRussian').click();
   await page.locator('#testEnglish').click();
   await page.locator('#stopReply').click();
+  if (!(await page.evaluate(() => window.__miraSpoken.length))) console.log('Voice buttons diagnostics:', {errors, state:await page.evaluate(() => ({voiceStatus:document.querySelector('#voiceStatus')?.textContent, speech:typeof window.SpeechSynthesisUtterance, synth:typeof window.speechSynthesis?.speak}))});
   expect((await page.evaluate(() => window.__miraSpoken)).length).toBeGreaterThanOrEqual(2);
   await page.locator('#dictationConsent').check();
   await page.locator('#dictateStart').click();
