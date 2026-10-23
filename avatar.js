@@ -18,6 +18,25 @@
     else softEllipse(m,370,358,68,40,-.25);
     context.globalCompositeOperation='destination-in';context.drawImage(mask,0,0);return canvas;
   }
+  // Tiny premium highlights around the outer hair only; no face changes.
+  const hairGlints=[
+    [171,190,0.1],[492,165,1.8],[124,335,2.7],[543,303,4.1],
+    [163,461,3.3],[518,484,5.6],[240,112,2.1],[507,390,4.8]
+  ];
+  function sparkle(c,x,y,size,alpha){
+    c.save();c.translate(x,y);c.globalAlpha=alpha;
+    c.shadowBlur=9;c.shadowColor='#fff0ff';c.strokeStyle='#fff5da';
+    c.lineWidth=1.15;c.lineCap='round';c.beginPath();
+    c.moveTo(-size,0);c.lineTo(size,0);c.moveTo(0,-size);c.lineTo(0,size);c.stroke();
+    c.restore();
+  }
+  function highlightHair(c,now){
+    for(const [x,y,phase] of hairGlints){
+      const t=now/1200+phase,light=Math.pow(Math.max(0,Math.sin(t*1.14)),8);
+      if(light<.04)continue;
+      sparkle(c,x,y,1.8+light*2.2,.11+light*.42);
+    }
+  }
   window.MiraAvatar={setState(state){mode=captions[state]?state:'idle';const caption=document.getElementById('miraMood');if(caption)caption.textContent=captions[mode];},attachAudio(value){analyser=value;}};
   Promise.all(['mira-0','mira-blink','mira-ah','mira-oh'].map(load)).then(()=>{
     const blink=patch('mira-blink',true),ah=patch('mira-ah'),oh=patch('mira-oh');
@@ -34,6 +53,7 @@
         c.drawImage(pictures['mira-0'],0,0,680,850);
         if(now<blinkUntil&&blink)c.drawImage(blink,0,0);
         if(mode==='speaking'&&level>.08&&ah){c.globalAlpha=Math.min(1,level*2.3);c.drawImage(Math.sin(now/110)>.3&&level>.35?(oh||ah):ah,0,0);}
+        c.globalAlpha=1;if(!calm)highlightHair(c,now);
         c.restore();
       }
       requestAnimationFrame(draw);

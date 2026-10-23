@@ -48,8 +48,8 @@
   function stopDictation(){const r=recognition;resetDictation();try{r?.abort();}catch(_){}}
   async function startDictation(){
     if(dictation||starting)return;
-    if(!Recognizer){dictationStatus('Диктовка здесь недоступна. Введи тему текстом или используй микрофон экранной клавиатуры.');return;}
-    if(!$('dictationConsent').checked){dictationStatus('Для диктовки отметь разрешение выше. Поиск работает и без микрофона.');$('dictationConsent').focus();return;}
+    if(!Recognizer){dictationStatus('В этом браузере нет распознавания речи. Открываю поле ввода: на телефоне нажми значок микрофона на клавиатуре. Это не голосовой разговор с ИИ.');$('mentorQuestion').focus();$('mentorQuestion').scrollIntoView({block:'nearest'});return;}
+    if(!$('dictationConsent').checked){dictationStatus('Перед диктовкой отметь галочку «Разрешаю голосовой ввод» чуть выше. Без галочки микрофон не запускается.');$('dictationConsent').focus();$('dictationConsent').scrollIntoView({block:'center'});return;}
     stopPlayback();starting=true;let r;
     try{
       r=new Recognizer();recognition=r;r.lang=$('dictationLang').value;r.continuous=false;r.interimResults=true;r.maxAlternatives=1;
@@ -72,6 +72,6 @@
   $('stopReply').onclick=stopPlayback;$('dictateStart').onclick=startDictation;$('dictateStop').onclick=()=>{try{recognition?.stop();}catch(_){stopDictation();}};
   window.addEventListener('pagehide',()=>{stopDictation();stopPlayback();});document.addEventListener('visibilitychange',()=>{if(document.hidden){stopDictation();stopPlayback();}});
   if(synth?.addEventListener)synth.addEventListener('voiceschanged',updateVoices);
-  updateVoices();dictationStatus(Recognizer?'Браузер предоставляет диктовку. Реальный запуск зависит от микрофона, языка и службы браузера.':'Диктовка в этом браузере недоступна. Используй текст или микрофон экранной клавиатуры.');
+  updateVoices();if(!Recognizer)$('dictateStart').textContent='🎤 Диктовать через клавиатуру';dictationStatus(Recognizer?'Кнопка «Продиктовать тему» распознаёт только тему поиска после разрешения микрофона. Это не голосовой чат с ИИ.':'Встроенная диктовка недоступна. Кнопка откроет поле ввода: можно нажать микрофон на экранной клавиатуре.');
   window.MiraVoice={speak,stopPlayback,stopDictation,updateVoices,get active(){return dictation||starting;},capabilities(){return {synthesis:!!synth&&!!window.SpeechSynthesisUtterance,voices:voices().length,dictation:!!Recognizer};}};
 })();
