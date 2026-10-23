@@ -114,3 +114,65 @@ input,select,textarea,button{font:inherit}select,input,textarea{max-width:100%}
     width:100%;min-width:0!important;font-size:14px!important;padding:12px 14px!important;
   }
 }
+
+/* MIRA Starlight: delicate details, the same approved portrait on every page. */
+:root{--mira-glimmer:#ffe0fa;--mira-twinkle:#e4caff}
+.mira-page-greeting{
+  display:flex;align-items:center;gap:clamp(12px,2vw,23px);
+  margin:4px 0 22px;padding:11px clamp(14px,2vw,24px);min-width:0;
+  border-radius:24px;border:1px solid #ffd0ed66;
+  background:linear-gradient(115deg,#61315a8a 0%,#3d204a94 60%,#8b3b8968 100%);
+  box-shadow:inset 0 1px 0 #ffebfa28,0 0 26px #f790dd17;
+}
+.mira-page-portrait{
+  flex:0 0 auto;position:relative;width:clamp(75px,10vw,115px);height:clamp(85px,11vw,125px);
+  border-radius:35% 35% 23% 23%;overflow:hidden;isolation:isolate;
+  background:radial-gradient(ellipse at 50% 50%,#db94cd6b,#44204a4d);
+  box-shadow:0 0 20px #ff8fe839,inset 0 0 13px #fbdaf33d;
+}
+.mira-page-portrait img{
+  width:100%;height:100%;object-fit:cover;object-position:center 24%;
+  transform:translateX(var(--portrait-x,0)) rotate(var(--portrait-tilt,0deg)) scale(var(--portrait-zoom,1.08));
+  filter:drop-shadow(0 0 10px #ffc0fa7a);
+  transition:transform .45s ease;
+}
+.mira-page-greeting.tilt-left{--portrait-tilt:-3deg;--portrait-x:-2px;--portrait-zoom:1.1}
+.mira-page-greeting.tilt-right{--portrait-tilt:3deg;--portrait-x:3px;--portrait-zoom:1.12}
+.mira-page-hello{display:flex;flex-direction:column;gap:4px;min-width:0}
+.mira-page-hello .eyebrow{color:#ffd4ec;font-size:11px;letter-spacing:.12em}
+.mira-page-hello strong{color:#fff1fc;font-size:clamp(16px,2.2vw,23px);font-family:Georgia,Cambria,serif;line-height:1.32}
+.mira-hair-twinkle{position:absolute;z-index:1;pointer-events:none;opacity:.15;color:#fff4db;
+  text-shadow:0 0 5px #fff,0 0 13px #fcd9ff;transform-origin:center;
+  animation:mira-hair-shimmer 4.9s ease-in-out infinite}
+.mira-hair-twinkle.twinkle-a{top:19%;left:14%;font-size:13px;animation-delay:-.7s}
+.mira-hair-twinkle.twinkle-b{top:26%;right:15%;font-size:12px;animation-delay:-2.6s}
+.mira-hair-twinkle.twinkle-c{top:49%;left:10%;font-size:9px;animation-delay:-3.8s}
+@keyframes mira-hair-shimmer{
+  0%,33%,79%,100%{opacity:.1;transform:scale(.6) rotate(0deg)}
+  45%,53%{opacity:.78;transform:scale(1.03) rotate(32deg)}
+}
+.mira-page-greeting::after{content:'✧';align-self:flex-start;margin-left:auto;color:#ffeaf5;
+  font-size:18px;opacity:.66;text-shadow:0 0 12px #edc4ff}
+.hero.card,.live-hero{box-shadow:0 0 48px #ff8cda24,0 14px 47px #0c04162e!important}
+.main .card:not(.mira-recorder){transition:box-shadow .22s ease,border-color .22s ease}
+.main .card:not(.mira-recorder):focus-within{box-shadow:0 0 0 2px #ffc6eb80,0 0 26px #ffc5ec29}
+.mira-recorder{margin-top:19px;padding:clamp(14px,2vw,24px)!important;background:#ffffff0a!important}
+.mira-recorder h4{font-size:21px;color:#fff0fc;margin:0 0 7px}
+.mira-recorder .small{font-size:14px;line-height:1.5}
+.mira-recorder audio{width:100%;max-width:450px;margin-top:13px;display:block}
+.mira-recorder audio[hidden]{display:none!important}
+.mira-recorder #recordDownload{display:inline-flex;margin-top:13px;white-space:normal;text-decoration:none}
+.mira-recorder #recordDownload[hidden]{display:none!important}
+.mira-recorder .actions{display:flex;flex-wrap:wrap;gap:10px}
+.mira-recorder .actions .btn{min-width:0;white-space:normal;overflow-wrap:anywhere}
+#dictationStatus,#recordStatus{overflow-wrap:anywhere;line-height:1.55}
+@media(max-width:540px){
+  .mira-page-greeting{padding:10px 12px;gap:10px;border-radius:18px}
+  .mira-page-portrait{width:72px;height:82px}
+  .mira-page-hello strong{font-size:16px}
+  .mira-page-greeting::after{display:none}
+  .mira-recorder .actions{display:grid;grid-template-columns:1fr}
+  .mira-recorder .actions .btn{width:100%;min-height:50px}
+}
+@media(prefers-reduced-motion:reduce){.mira-hair-twinkle{animation:none!important;opacity:.08}}
+.reduce-motion .mira-hair-twinkle{animation:none!important;opacity:.08}
