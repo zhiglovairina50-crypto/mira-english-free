@@ -8,10 +8,9 @@ function watchErrors(page) {
 async function fakeVoice(page) {
   await page.addInitScript(() => {
     window.__miraSpoken = [];
-    const available = [
-      { name: 'Natural English', lang: 'en-GB', voiceURI: 'test-natural-en', localService: true },
-      { name: 'Мира — проверка русского', lang: 'ru-RU', voiceURI: 'test-ru', localService: true }
-    ];
+    // Real SpeechSynthesisUtterance only accepts real SpeechSynthesisVoice instances.
+    // An empty list tests the default-voice fallback without synthetic invalid voices.
+    const available = [];
     const synth = {
       getVoices: () => available,
       cancel() {},
