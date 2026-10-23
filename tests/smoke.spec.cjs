@@ -64,7 +64,8 @@ test('главное меню, уроки, вопросы, чтение и кн�
   await page.locator('#sayExample').click();
   await page.locator('#sayRule').click();
   const spoken = await page.evaluate(() => window.__miraSpoken);
-  expect(spoken.some(s => s.lang.startsWith('en')), JSON.stringify(await page.evaluate(() => ({voiceStatus:document.querySelector('#voiceStatus')?.textContent,hasMira:!!window.Mira,hasVoice:!!window.MiraVoice,hasSynthesis:!!window.speechSynthesis}))))).toBeTruthy();
+  if (!spoken.length) console.log('Voice diagnostics:', await page.evaluate(() => ({voiceStatus:document.querySelector('#voiceStatus')?.textContent,hasMira:!!window.Mira,hasVoice:!!window.MiraVoice,hasSynthesis:!!window.speechSynthesis})));
+  expect(spoken.some(s => s.lang.startsWith('en'))).toBeTruthy();
   expect(spoken.some(s => s.lang.startsWith('ru'))).toBeTruthy();
   await page.locator('#lessonHost [data-choose]').first().click();
   await expect(page.locator('#nextTask')).toBeVisible();
