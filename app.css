@@ -94,3 +94,23 @@ input,select,textarea,button{font:inherit}select,input,textarea{max-width:100%}
  .page-finder-controls{align-items:stretch!important}
  .page-finder-controls .btn{white-space:normal!important;min-height:52px!important}
 }
+
+/* All study/voice buttons: protect labels from clipping on narrow screens. */
+.lessonexample .actions,.readtext + .actions,.qbox .actions,.dictation-panel .actions{min-width:0;flex-wrap:wrap}
+.lessonexample .actions .btn,.qbox .actions .btn,.dictation-panel .actions .btn,.mentor-info .actions .btn{
+  min-width:0!important;max-width:100%;box-sizing:border-box;
+  white-space:normal!important;overflow-wrap:anywhere;word-break:normal;
+  text-align:center;line-height:1.4;min-height:49px;
+  flex:1 1 210px;
+}
+#sayExample,#sayRule,#readAloud,#testEnglish,#testRussian,#dictateStart,#dictateStop{
+  white-space:normal!important;overflow-wrap:anywhere;max-width:100%;
+}
+@media(max-width:540px){
+  .lessonexample .actions,.qbox .actions,.dictation-panel .actions{
+    display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:10px;
+  }
+  .lessonexample .actions .btn,.qbox .actions .btn,.dictation-panel .actions .btn{
+    width:100%;min-width:0!important;font-size:14px!important;padding:12px 14px!important;
+  }
+}
