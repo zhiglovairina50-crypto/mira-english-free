@@ -1,0 +1,12 @@
+{
+  "name": "mira-english-free-qa",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Free UI smoke tests for MIRA English public static site",
+  "scripts": {
+    "test:ui": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1"
+  }
+}

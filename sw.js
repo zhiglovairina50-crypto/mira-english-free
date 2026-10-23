@@ -1,6 +1,6 @@
 /* Static assets only. Relative URLs support GitHub project Pages. */
-const BASE=new URL('./',self.location.href),PREFIX='mira-free-'+BASE.pathname.replace(/[^a-z0-9]/gi,'_')+'-',CACHE=PREFIX+'2026-10-22-v1';
-const FILES=['./','index.html','progress.js','lessons.js','app.js','voice.js','avatar.js','app.css','manifest.webmanifest','assets/mira-0.webp','assets/mira-blink.webp','assets/mira-ah.webp','assets/mira-oh.webp','assets/icon-192.png','assets/icon-512.png','assets/icon-180.png'];
+const BASE=new URL('./',self.location.href),PREFIX='mira-free-'+BASE.pathname.replace(/[^a-z0-9]/gi,'_')+'-',CACHE=PREFIX+'2026-10-23-v2';
+const FILES=['./','index.html','progress.js','lessons.js','pagebook.js','app.js','voice.js','avatar.js','app.css','manifest.webmanifest','assets/mira-0.webp','assets/mira-blink.webp','assets/mira-ah.webp','assets/mira-oh.webp','assets/icon-192.png','assets/icon-512.png','assets/icon-180.png'];
 const URLS=FILES.map(file=>new URL(file,BASE).href);
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(URLS.map(url=>new Request(url,{cache:'reload',credentials:'omit'}))))));
 self.addEventListener('message',e=>{if(e.data?.type==='MIRA_SKIP_WAITING')self.skipWaiting();});

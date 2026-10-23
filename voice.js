@@ -9,13 +9,22 @@
   const dictationStatus=text=>{$('dictationStatus').textContent=text;};
   function stopPlayback(){serial++;utterances=[];try{synth?.cancel();}catch(_){}window.MiraAvatar?.setState('idle');signal();}
   function voices(){try{return synth?.getVoices()||[];}catch(_){return [];}}
-  function selected(lang){const select=$(lang.startsWith('ru')?'voiceRu':'voiceEn'),list=voices();return list.find(v=>v.voiceURI===select.value)||list.filter(v=>v.lang.toLowerCase().startsWith(lang.slice(0,2))).sort((a,b)=>Number(b.localService)-Number(a.localService))[0]||null;}
+  function voiceRank(v){
+    const name=(v.name+' '+v.voiceURI).toLowerCase();
+    let score=0;
+    if(/natural|neural|premium|enhanced|high quality|google|siri/.test(name))score+=12;
+    if(/female|woman|женск/.test(name))score+=3;
+    if(/robot|espeak|compact/.test(name))score-=8;
+    if(v.localService)score+=2;
+    return score;
+  }
+  function selected(lang){const select=$(lang.startsWith('ru')?'voiceRu':'voiceEn'),list=voices();return list.find(v=>v.voiceURI===select.value)||list.filter(v=>v.lang.toLowerCase().startsWith(lang.slice(0,2))).sort((a,b)=>voiceRank(b)-voiceRank(a))[0]||null;}
   function updateVoices(){
     const list=voices(),supported=!!synth&&!!window.SpeechSynthesisUtterance;
     for(const [id,lang]of [['voiceRu','ru'],['voiceEn','en']]){
       const select=$(id),chosen=select.value||preferences[id]||'';select.replaceChildren();
       const automatic=document.createElement('option');automatic.value='';automatic.textContent='Автоматически · '+(lang==='ru'?'русский':'English');select.append(automatic);
-      for(const v of list.filter(v=>v.lang.toLowerCase().startsWith(lang)).sort((a,b)=>Number(b.localService)-Number(a.localService))){const o=document.createElement('option');o.value=v.voiceURI;o.textContent=v.name+' · '+v.lang+(v.localService?' · устройство':' · браузер / интернет');select.append(o);}
+      for(const v of list.filter(v=>v.lang.toLowerCase().startsWith(lang)).sort((a,b)=>voiceRank(b)-voiceRank(a))){const o=document.createElement('option');o.value=v.voiceURI;o.textContent=v.name+' · '+v.lang+(v.localService?' · устройство':' · браузер / интернет');select.append(o);}
       if([...select.options].some(o=>o.value===chosen))select.value=chosen;select.disabled=!supported;
     }
     $('testRussian').disabled=!supported;$('testEnglish').disabled=!supported;
@@ -26,7 +35,7 @@
     if(!synth||!window.SpeechSynthesisUtterance){status('Озвучка недоступна — прочитай текст урока.');return false;}
     stopDictation();stopPlayback();const clean=String(text||'').trim().slice(0,12000);if(!clean)return false;
     const lang=options.lang||(/[А-Яа-яЁё]/.test(clean)?'ru-RU':'en-GB'),voice=selected(lang),current=serial;
-    const rate=Number(options.rate)||(lang.startsWith('en')?Number($('speechRate').value):.94);let completed=0;
+    const rate=Number(options.rate)||(lang.startsWith('en')?Number($('speechRate').value):.96);let completed=0;
     utterances=(clean.match(/.{1,180}(?:\s|$)|\S{1,180}/g)||[]).map(part=>{
       const u=new SpeechSynthesisUtterance(part);u.lang=lang;u.rate=Math.max(.5,Math.min(1.3,rate));if(voice)u.voice=voice;
       u.onstart=()=>{if(current!==serial)return;window.MiraAvatar?.setState('speaking');status('Читаю '+(voice?voice.name:lang)+'…');signal();};
