@@ -411,7 +411,124 @@ h1,h2,h3,.unitcard .unit-name,#unitsGrid .topic-headline{font-family:Georgia, 'P
 .mira-voice-panel{margin:20px 0 8px;padding:20px;border:1px solid rgba(196,118,182,.32);border-radius:22px;background:linear-gradient(135deg,rgba(252,232,246,.85),rgba(239,232,255,.82));color:#49314e}
 .mira-voice-title{font-weight:750;font-size:21px;margin:0 0 14px}.mira-voice-actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px}.mira-voice-actions .btn{min-height:46px;font-size:16px;padding:10px 14px}.mira-voice-actions button:disabled{opacity:.5;cursor:not-allowed}.mira-voice-language{font-size:15px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}.mira-voice-language select{border:1px solid #d7b9d7;border-radius:12px;background:#fff;padding:10px;font:inherit;color:#49314e}.mira-voice-check{display:flex;align-items:center;gap:10px;font-size:16px}.mira-voice-check input{width:20px;height:20px;accent-color:#b875b7}.mira-voice-privacy{opacity:.8;line-height:1.5;margin-bottom:0}.mira-voice-panel #miraVoiceStatus{font-size:16px;line-height:1.5;margin:12px 0}.mira-voice-panel button[aria-pressed="true"]{background:#a93067;box-shadow:0 0 0 4px rgba(169,48,103,.13)}
 @media(max-width:600px){.mira-voice-panel{padding:16px}.mira-voice-actions .btn{flex:1 1 100%;width:100%}.mira-voice-language{width:100%;justify-content:space-between}}
-</style><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="assets/icon-180.png"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="stylesheet" href="app.css"><link rel="stylesheet" href="mira-atmosphere.css"></head><body>
+</style><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="assets/icon-180.png"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="stylesheet" href="app.css"><link rel="stylesheet" href="mira-atmosphere.css">
+<style id="miraPageControlsPolish">
+/* Loaded directly in the document so page controls remain styled even when
+   an older PWA cache has not refreshed the external CSS file. */
+#bookPageCompanion{
+  --pc-ink:#fff1fc;--pc-highlight:#ffd6f5;--pc-stroke:#ecb9f5a3;
+  background:linear-gradient(137deg,#663369ec 0%,#3b1b55ed 52%,#431f64ee 100%)!important;
+  border:1px solid #ffbde7b8!important;border-radius:30px!important;
+  box-shadow:inset 0 1px 0 #ffdef83d,0 18px 48px #12031e57,0 0 42px #e870db23!important;
+  padding:clamp(18px,3.2vw,34px)!important;
+  overflow:hidden;min-width:0;
+}
+#bookPageCompanion .book-page-jumps{
+  display:flex!important;flex-wrap:wrap!important;align-items:center!important;gap:9px!important;
+  margin:18px 0 16px!important;padding:0!important;min-width:0;
+}
+#bookPageCompanion button.book-page-unit,
+#bookPageCompanion button.book-page-number,
+#bookPageCompanion button.book-page-lesson,
+#bookPageCompanion button.book-nav-btn{
+  appearance:none!important;-webkit-appearance:none!important;
+  box-sizing:border-box!important;color:var(--pc-ink)!important;
+  border:1px solid var(--pc-stroke)!important;
+  background:linear-gradient(140deg,#91467f8e 0%,#512366cb 70%,#3d1c55f0 100%)!important;
+  box-shadow:inset 0 1px 0 #fff4,inset 0 -2px 8px #20052b33,0 4px 14px #1805214f!important;
+  text-shadow:0 1px 3px #220b2ac9!important;
+  font-family:'Segoe UI',Arial,sans-serif!important;font-weight:700!important;
+  letter-spacing:0!important;white-space:normal!important;overflow-wrap:anywhere!important;
+  text-decoration:none!important;line-height:1.34!important;
+  cursor:pointer!important;transition:background .18s,border-color .18s,box-shadow .18s,transform .18s!important;
+}
+#bookPageCompanion button.book-page-unit:hover:not(:disabled),
+#bookPageCompanion button.book-page-number:hover:not(:disabled),
+#bookPageCompanion button.book-page-lesson:hover:not(:disabled),
+#bookPageCompanion button.book-nav-btn:hover:not(:disabled){
+  color:#fff!important;
+  background:linear-gradient(128deg,#c969b4c9,#783494e6 64%,#593078eb)!important;
+  border-color:#ffe0fa!important;
+  box-shadow:inset 0 1px 0 #fff8,0 6px 22px #ff9fea60,0 0 19px #f08cfc4a!important;
+  transform:translateY(-1px);
+}
+#bookPageCompanion button.book-page-unit{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  flex:0 1 auto!important;min-height:44px!important;max-width:100%!important;
+  padding:10px 16px!important;border-radius:100px!important;
+  font-size:14px!important;text-align:center!important;
+}
+#bookPageCompanion .book-page-navigation{
+  display:grid!important;grid-template-columns:minmax(0,auto) minmax(0,1fr) minmax(0,auto)!important;
+  gap:12px!important;align-items:center!important;margin:20px 0!important;min-width:0;
+}
+#bookPageCompanion button.book-nav-btn{
+  display:inline-flex!important;gap:9px!important;align-items:center!important;justify-content:center!important;
+  min-width:0!important;min-height:51px!important;max-width:100%!important;
+  padding:12px 17px!important;border-radius:18px!important;font-size:15px!important;
+  text-align:center!important;
+}
+#bookPageCompanion button.book-nav-btn::before,
+#bookPageCompanion button.book-nav-btn::after{content:none!important;display:none!important}
+#bookPageCompanion .book-page-quick{
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  flex-wrap:wrap!important;gap:7px!important;min-width:0!important;padding:0!important;
+}
+#bookPageCompanion button.book-page-number{
+  display:inline-grid!important;place-items:center!important;
+  width:43px!important;height:47px!important;min-height:47px!important;min-width:43px!important;
+  padding:0!important;border-radius:15px!important;font-size:15px!important;text-align:center!important;
+}
+#bookPageCompanion button.book-page-number.is-current,
+#bookPageCompanion button.book-page-number[aria-pressed="true"]{
+  background:linear-gradient(145deg,#ffe1f5,#ffb3e4 55%,#c798f5)!important;
+  color:#4d205d!important;border-color:#fff4fc!important;text-shadow:none!important;
+  box-shadow:inset 0 2px 2px #fff9,0 0 0 2px #ffbaf86e,0 0 20px #ff8cef90!important;
+  transform:none!important;font-weight:850!important;
+}
+#bookPageCompanion .book-page-sheet{
+  border:1px solid #ffceef80!important;border-radius:23px!important;
+  background:linear-gradient(135deg,#d976b716,#b37bef0d)!important;
+  box-shadow:inset 0 1px 0 #ffe1fb27!important;padding:clamp(16px,2vw,25px)!important;
+  min-width:0!important;
+}
+#bookPageCompanion .book-page-lesson-list{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:11px!important;margin-top:13px!important;
+}
+#bookPageCompanion button.book-page-lesson{
+  display:flex!important;align-items:center!important;justify-content:space-between!important;
+  min-height:60px!important;padding:14px 18px!important;
+  border-radius:18px!important;font-size:15px!important;text-align:left!important;
+}
+#bookPageCompanion .book-page-link{color:#ffdbf4!important;text-underline-offset:3px}
+#bookPageCompanion button:focus-visible{
+  outline:3px solid #ffe5fa!important;outline-offset:3px!important;
+}
+#bookPageCompanion button:disabled{opacity:.46!important;cursor:not-allowed!important}
+@media (max-width:1020px){
+  #bookPageCompanion .book-page-navigation{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;
+  }
+  #bookPageCompanion .book-page-quick{
+    grid-column:1/-1!important;grid-row:1!important;margin-bottom:3px!important;
+  }
+  #bookPageCompanion button.book-nav-btn{width:100%!important;padding:12px 10px!important}
+}
+@media (max-width:690px){
+  #bookPageCompanion{border-radius:22px!important;padding:18px 14px!important}
+  #bookPageCompanion .book-page-jumps{flex-wrap:wrap!important;overflow:visible!important;gap:7px!important}
+  #bookPageCompanion button.book-page-unit{font-size:12.5px!important;padding:10px 12px!important;min-height:40px!important}
+  #bookPageCompanion button.book-page-number{width:37px!important;min-width:37px!important;height:42px!important;min-height:42px!important;border-radius:12px!important;font-size:14px!important}
+  #bookPageCompanion button.book-nav-btn{font-size:13px!important;min-height:49px!important;padding:11px 6px!important}
+  #bookPageCompanion .book-page-lesson-list{grid-template-columns:1fr!important}
+  #bookPageCompanion button.book-page-lesson{font-size:14px!important;min-height:55px!important}
+}
+@media (prefers-reduced-motion:reduce){
+  #bookPageCompanion button{transition:none!important;transform:none!important}
+}
+.reduce-motion #bookPageCompanion button{transition:none!important;transform:none!important}
+</style></head><body>
 <noscript><div class="notice" style="margin:20px">Для занятий нужен браузер с включённым JavaScript. Открой ссылку приложения в Chrome, Edge или Safari.</div></noscript>
 <div class="layout"><aside class="sidebar"><div class="brand"><div class="brandicon">✦</div><div><strong>MIRA</strong><span>ENGLISH TUTOR</span></div></div><div class="nav" id="nav"><button data-go="home" class="active">✦ Главная</button><button data-go="diagnostic">🧭 Диагностика</button><button data-go="catalog">📚 Все 10 Units</button><button data-go="foundation">🧩 Повторить основы</button><button data-go="reading">📖 Читаем и понимаем</button><button data-go="homework">✍️ Помощь с ДЗ</button><button data-go="mentor">✧ Мира · объяснения</button><button data-go="parent">📊 Для родителей</button></div><div class="sideend"><img class="sidebarphoto" src="assets/mira-0.webp" alt="Мира"><b>Привет, я Мира!</b><div class="small">Объясню непонятное и помогу справиться самой.</div></div></aside>
 <main class="main"><div class="top"><span class="eyebrow">✦ MIRA STARLIGHT · ВСЕЛЕННАЯ АНГЛИЙСКОГО</span><span class="pill">БЕСПЛАТНО · БЕЗ ПОДПИСКИ</span></div>
